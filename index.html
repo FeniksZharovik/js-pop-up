@@ -9,13 +9,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <button id="openModal" class="bg-blue-500 text-white px-4 py-2 rounded">Open Modal</button>
+<body class="bg-gray-900 text-gray-100 flex flex-col items-center justify-between min-h-screen">
+
+    <!-- Header -->
+    <header class="w-full py-4 bg-gray-800 shadow-md">
+        <h1 class="text-center text-3xl font-bold">Welcome to the Modal Pop-up Demo</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center">
+        <button id="openModal" class="bg-blue-600 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105">
+            Open Modal
+        </button>
+    </main>
 
     <!-- Modal Container -->
-    <div id="modalContainer" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
+    <div id="modalContainer" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
         <!-- Modals will be injected here -->
     </div>
+
+    <!-- Footer -->
+    <footer class="w-full py-4 bg-gray-800 shadow-md">
+        <p class="text-center">&copy; 2023 Modal Pop-up Project. All rights reserved.</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
