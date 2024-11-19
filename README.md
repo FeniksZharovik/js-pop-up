@@ -1,7 +1,5 @@
 # Modal Pop-up Project
 
-![Modal Animation](https://your-new-gif-url.com/your-gif.gif)
-
 ## Deskripsi
 
 Proyek ini menampilkan 10 pop-up modal yang berbeda, masing-masing dengan desain dan pesan unik. Dibangun menggunakan JavaScript dan Tailwind CSS, proyek ini memanfaatkan ikon dari Font Awesome untuk menambah daya tarik visual.
@@ -22,6 +20,3 @@ Proyek ini menampilkan 10 pop-up modal yang berbeda, masing-masing dengan desain
 2. **Buka file `index.html`** di browser Anda.
 3. **Klik tombol "Open Modal"** untuk memulai pengalaman interaktif.
 
-## Pratinjau
-
-![Modal Preview](https://your-new-gif-url.com/your-gif.gif)
