@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const openModalButton = document.getElementById('openModal');
     const modalContainer = document.getElementById('modalContainer');
-    const body = document.body;
 
     const modals = [{
             title: "Welcome!",
@@ -109,9 +108,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         closeButton.addEventListener('click', () => {
+            closeModal();
+        });
+
+        modalContainer.addEventListener('click', (event) => {
+            if (!modalElement.contains(event.target)) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function escKeyListener(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+                document.removeEventListener('keydown', escKeyListener);
+            }
+        });
+
+        function closeModal() {
             modalElement.remove();
             modalContainer.classList.add('hidden');
-        });
+        }
 
         modalContainer.appendChild(modalElement);
         modalContainer.classList.remove('hidden');
