@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const openModalButton = document.getElementById('openModal');
     const modalContainer = document.getElementById('modalContainer');
+    const body = document.body;
 
     const modals = [{
             title: "Welcome!",
@@ -108,12 +109,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         closeButton.addEventListener('click', () => {
-            closeModal();
+            modalElement.remove();
+            modalContainer.classList.add('hidden');
         });
 
         modalContainer.addEventListener('click', (event) => {
-            if (!modalElement.contains(event.target)) {
-                closeModal();
+            if (event.target === modalContainer) {
+                if (!modalElement.contains(event.target)) {
+                    closeModal();
+                }
             }
         });
 
