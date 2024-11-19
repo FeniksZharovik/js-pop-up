@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const modalData = modals[index];
         const modalElement = document.createElement('div');
-        modalElement.className = `bg-white p-6 rounded shadow-lg w-1/3 ${modalData.bgColor}`;
+        modalElement.className = `bg-gray-800 text-white p-6 rounded shadow-lg w-1/3 ${modalData.bgColor}`;
         modalElement.innerHTML = `
             <div class="flex items-center mb-4">
                 <i class="${modalData.icon} text-3xl mr-3"></i>
@@ -96,28 +96,37 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="mb-4 text-sm">${modalData.details}</p>
             <div class="flex justify-end">
                 <button class="closeModal bg-gray-300 text-black px-4 py-2 rounded mr-2">Tutup</button>
-                <button class="nextModal bg-white text-black px-4 py-2 rounded">Next Modal</button>
+                ${index === modals.length - 1 ? 
+                    '<button class="doneModal bg-gray-700 text-white px-4 py-2 rounded">Done</button>' : 
+                    '<button class="nextModal bg-gray-700 text-white px-4 py-2 rounded">Next Modal</button>'
+                }
             </div>
         `;
 
         const nextButton = modalElement.querySelector('.nextModal');
         const closeButton = modalElement.querySelector('.closeModal');
+        const doneButton = modalElement.querySelector('.doneModal');
 
-        nextButton.addEventListener('click', () => {
-            modalElement.remove();
-            showModal(index + 1);
-        });
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                modalElement.remove();
+                showModal(index + 1);
+            });
+        }
+
+        if (doneButton) {
+            doneButton.addEventListener('click', () => {
+                closeModal();
+            });
+        }
 
         closeButton.addEventListener('click', () => {
-            modalElement.remove();
-            modalContainer.classList.add('hidden');
+            closeModal();
         });
 
         modalContainer.addEventListener('click', (event) => {
             if (event.target === modalContainer) {
-                if (!modalElement.contains(event.target)) {
-                    closeModal();
-                }
+                closeModal();
             }
         });
 
