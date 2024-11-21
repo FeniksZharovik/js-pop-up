@@ -161,41 +161,39 @@ document.addEventListener('DOMContentLoaded', () => {
             <form id="reportForm">
                 <div class="mb-4">
                     <label class="block mb-2">Pilih alasan:</label>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="konten seksual" id="sexualContent" class="mr-2">
                         <label for="sexualContent">Konten Seksual</label>
                     </div>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="konten kekerasan" id="violentContent" class="mr-2">
                         <label for="violentContent">Konten Kekerasan atau Menjijikkan</label>
                     </div>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="konten kebencian" id="hateContent" class="mr-2">
                         <label for="hateContent">Konten Kebencian atau Pelecehan</label>
                     </div>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="tindakan berbahaya" id="dangerousActs" class="mr-2">
                         <label for="dangerousActs">Tindakan Berbahaya</label>
                     </div>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="spam" id="spam" class="mr-2">
                         <label for="spam">Spam atau Misinformasi</label>
                     </div>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="masalah hukum" id="legalIssues" class="mr-2">
                         <label for="legalIssues">Masalah Hukum</label>
                     </div>
-                    <div>
+                    <div class="reason-option">
                         <input type="radio" name="reason" value="teks bermasalah" id="problematicText" class="mr-2">
                         <label for="problematicText">Teks Bermasalah</label>
                     </div>
                 </div>
-                <div class="mb-4">
+                <div id="additionalInfoContainer" class="mb-4 hidden">
                     <label for="additionalInfo" class="block mb-2">Pilih laporan tambahan:</label>
                     <select id="additionalInfo" class="w-full p-2 border rounded">
-                        <option value="">Pilih...</option>
-                        <option value="detail1">Detail Tambahan 1</option>
-                        <option value="detail2">Detail Tambahan 2</option>
+                        <!-- Options will be dynamically added here -->
                     </select>
                 </div>
                 <button type="button" id="nextReportStep" class="bg-gray-400 text-white px-4 py-2 rounded" disabled>Berikutnya</button>
@@ -203,9 +201,60 @@ document.addEventListener('DOMContentLoaded', () => {
             </form>
         `;
 
+        const additionalInfoContainer = reportModalElement.querySelector('#additionalInfoContainer');
         const additionalInfoSelect = reportModalElement.querySelector('#additionalInfo');
         const nextReportStepButton = reportModalElement.querySelector('#nextReportStep');
         const closeModalButton = reportModalElement.querySelector('.closeModal');
+
+        const radioButtons = reportModalElement.querySelectorAll('input[name="reason"]');
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', () => {
+                additionalInfoSelect.innerHTML = ''; // Clear previous options
+
+                let options = [];
+                switch (radio.value) {
+                    case 'konten seksual':
+                        options = ['Detail Tambahan A', 'Detail Tambahan B'];
+                        break;
+                    case 'konten kekerasan':
+                        options = ['Detail Tambahan C', 'Detail Tambahan D'];
+                        break;
+                    case 'konten kebencian':
+                        options = ['Detail Tambahan E', 'Detail Tambahan F'];
+                        break;
+                    case 'tindakan berbahaya':
+                        options = ['Detail Tambahan G', 'Detail Tambahan H'];
+                        break;
+                    case 'spam':
+                        options = ['Detail Tambahan I', 'Detail Tambahan J'];
+                        break;
+                    case 'masalah hukum':
+                        options = ['Detail Tambahan K', 'Detail Tambahan L'];
+                        break;
+                    case 'teks bermasalah':
+                        options = ['Detail Tambahan M', 'Detail Tambahan N'];
+                        break;
+                }
+
+                options.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option;
+                    opt.textContent = option;
+                    additionalInfoSelect.appendChild(opt);
+                });
+
+                additionalInfoSelect.insertAdjacentHTML('afterbegin', '<option value="">Pilih...</option>');
+                additionalInfoSelect.value = '';
+                nextReportStepButton.classList.add('bg-gray-400');
+                nextReportStepButton.classList.remove('bg-blue-600');
+                nextReportStepButton.disabled = true;
+
+                // Move the additional info container below the selected radio button
+                const reasonOption = radio.parentElement;
+                reasonOption.insertAdjacentElement('afterend', additionalInfoContainer);
+                additionalInfoContainer.classList.remove('hidden');
+            });
+        });
 
         additionalInfoSelect.addEventListener('change', () => {
             if (additionalInfoSelect.value) {
@@ -270,7 +319,9 @@ document.addEventListener('DOMContentLoaded', () => {
         thankYouModalElement.innerHTML = `
             <h2 class="text-xl font-bold mb-4">Terima Kasih</h2>
             <p class="mb-4">Terima kasih telah melaporkan artikel ini. Laporan Anda akan kami tinjau sesegera mungkin. Jika diperlukan, tindakan lebih lanjut akan diambil sesuai dengan kebijakan kami.</p>
-            <img src="https://img.icons8.com/ios-filled/50/000000/thank-you.png" alt="Thank You" class="mx-auto mb-4">
+            <div class="flex justify-center mb-4">
+                <img src="https://img.icons8.com/ios-filled/50/000000/checkmark.png" alt="Checklist Icon" class="w-16 h-16">
+            </div>
             <button type="button" class="closeModal bg-gray-300 text-black px-4 py-2 rounded">Tutup</button>
         `;
 
