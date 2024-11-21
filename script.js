@@ -81,6 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
         showModal(currentModalIndex);
     });
 
+    const reportIcon = document.getElementById('reportIcon');
+    const reportModalContainer = document.getElementById('reportModalContainer');
+
+    reportIcon.addEventListener('click', () => {
+        showReportModal();
+    });
+
     function showModal(index) {
         if (index >= modals.length) return;
 
@@ -144,5 +151,140 @@ document.addEventListener('DOMContentLoaded', () => {
 
         modalContainer.appendChild(modalElement);
         modalContainer.classList.remove('hidden');
+    }
+
+    function showReportModal() {
+        const reportModalElement = document.createElement('div');
+        reportModalElement.className = 'bg-white text-black p-6 rounded shadow-lg w-1/3 relative';
+        reportModalElement.innerHTML = `
+            <h2 class="text-xl font-bold mb-4">Laporkan Artikel</h2>
+            <form id="reportForm">
+                <div class="mb-4">
+                    <label class="block mb-2">Pilih alasan:</label>
+                    <div>
+                        <input type="radio" name="reason" value="konten seksual" id="sexualContent" class="mr-2">
+                        <label for="sexualContent">Konten Seksual</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="reason" value="konten kekerasan" id="violentContent" class="mr-2">
+                        <label for="violentContent">Konten Kekerasan atau Menjijikkan</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="reason" value="konten kebencian" id="hateContent" class="mr-2">
+                        <label for="hateContent">Konten Kebencian atau Pelecehan</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="reason" value="tindakan berbahaya" id="dangerousActs" class="mr-2">
+                        <label for="dangerousActs">Tindakan Berbahaya</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="reason" value="spam" id="spam" class="mr-2">
+                        <label for="spam">Spam atau Misinformasi</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="reason" value="masalah hukum" id="legalIssues" class="mr-2">
+                        <label for="legalIssues">Masalah Hukum</label>
+                    </div>
+                    <div>
+                        <input type="radio" name="reason" value="teks bermasalah" id="problematicText" class="mr-2">
+                        <label for="problematicText">Teks Bermasalah</label>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="additionalInfo" class="block mb-2">Pilih laporan tambahan:</label>
+                    <select id="additionalInfo" class="w-full p-2 border rounded">
+                        <option value="">Pilih...</option>
+                        <option value="detail1">Detail Tambahan 1</option>
+                        <option value="detail2">Detail Tambahan 2</option>
+                    </select>
+                </div>
+                <button type="button" id="nextReportStep" class="bg-gray-400 text-white px-4 py-2 rounded" disabled>Berikutnya</button>
+                <button type="button" class="closeModal bg-gray-300 text-black px-4 py-2 rounded mt-4">Tutup</button>
+            </form>
+        `;
+
+        const additionalInfoSelect = reportModalElement.querySelector('#additionalInfo');
+        const nextReportStepButton = reportModalElement.querySelector('#nextReportStep');
+        const closeModalButton = reportModalElement.querySelector('.closeModal');
+
+        additionalInfoSelect.addEventListener('change', () => {
+            if (additionalInfoSelect.value) {
+                nextReportStepButton.classList.remove('bg-gray-400');
+                nextReportStepButton.classList.add('bg-blue-600');
+                nextReportStepButton.disabled = false;
+            } else {
+                nextReportStepButton.classList.remove('bg-blue-600');
+                nextReportStepButton.classList.add('bg-gray-400');
+                nextReportStepButton.disabled = true;
+            }
+        });
+
+        nextReportStepButton.addEventListener('click', () => {
+            showOptionalReportModal();
+            reportModalElement.remove();
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            closeReportModal();
+        });
+
+        reportModalContainer.addEventListener('click', (event) => {
+            if (event.target === reportModalContainer) {
+                closeReportModal();
+            }
+        });
+
+        reportModalContainer.appendChild(reportModalElement);
+        reportModalContainer.classList.remove('hidden');
+    }
+
+    function showOptionalReportModal() {
+        const optionalReportModalElement = document.createElement('div');
+        optionalReportModalElement.className = 'bg-white text-black p-6 rounded shadow-lg w-1/3 relative';
+        optionalReportModalElement.innerHTML = `
+            <h2 class="text-xl font-bold mb-4">Laporan Tambahan Opsional</h2>
+            <textarea class="w-full p-2 border rounded mb-4" placeholder="Berikan detail tambahan" maxlength="500"></textarea>
+            <div class="text-right text-sm text-gray-500">0/500</div>
+            <button type="button" id="submitReport" class="bg-blue-600 text-white px-4 py-2 rounded mt-4">Laporkan</button>
+            <button type="button" class="closeModal bg-gray-300 text-black px-4 py-2 rounded mt-4">Tutup</button>
+        `;
+
+        const submitReportButton = optionalReportModalElement.querySelector('#submitReport');
+        const closeModalButton = optionalReportModalElement.querySelector('.closeModal');
+
+        submitReportButton.addEventListener('click', () => {
+            showThankYouModal();
+            optionalReportModalElement.remove();
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            closeReportModal();
+        });
+
+        reportModalContainer.appendChild(optionalReportModalElement);
+    }
+
+    function showThankYouModal() {
+        const thankYouModalElement = document.createElement('div');
+        thankYouModalElement.className = 'bg-white text-black p-6 rounded shadow-lg w-1/3 relative';
+        thankYouModalElement.innerHTML = `
+            <h2 class="text-xl font-bold mb-4">Terima Kasih</h2>
+            <p class="mb-4">Terima kasih telah melaporkan artikel ini. Laporan Anda akan kami tinjau sesegera mungkin. Jika diperlukan, tindakan lebih lanjut akan diambil sesuai dengan kebijakan kami.</p>
+            <img src="https://img.icons8.com/ios-filled/50/000000/thank-you.png" alt="Thank You" class="mx-auto mb-4">
+            <button type="button" class="closeModal bg-gray-300 text-black px-4 py-2 rounded">Tutup</button>
+        `;
+
+        const closeModalButton = thankYouModalElement.querySelector('.closeModal');
+
+        closeModalButton.addEventListener('click', () => {
+            closeReportModal();
+        });
+
+        reportModalContainer.appendChild(thankYouModalElement);
+    }
+
+    function closeReportModal() {
+        reportModalContainer.innerHTML = '';
+        reportModalContainer.classList.add('hidden');
     }
 });

@@ -9,7 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body class="bg-gray-900 text-gray-100 flex flex-col items-center justify-between min-h-screen">
+<body class="bg-gray-900 text-gray-100 flex flex-col items-center justify-between min-h-screen relative">
+
+    <!-- Report Icon and Text -->
+    <div class="absolute top-4 right-4 flex items-center space-x-2 cursor-pointer" id="reportIcon">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/flag.png" alt="Report Icon" class="w-6 h-6">
+        <span class="text-white font-bold">Report</span>
+    </div>
 
     <!-- Header -->
     <header class="w-full py-4 bg-gray-800 shadow-md">
@@ -26,6 +32,10 @@
     <!-- Modal Container -->
     <div id="modalContainer" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
         <!-- Modals will be injected here -->
+    </div>
+
+    <div id="reportModalContainer" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center">
+        <!-- Report Modal will be injected here -->
     </div>
 
     <!-- Footer -->
